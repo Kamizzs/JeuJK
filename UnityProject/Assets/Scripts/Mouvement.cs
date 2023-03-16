@@ -19,7 +19,7 @@ public class Mouvement : MonoBehaviour
     private int tempsDash=-1;
     private float Hori;
     private float Verti;
-    private bool facingRight;
+    private bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,7 @@ public class Mouvement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, solLayer);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetBool("DoubleJump", false);
+
         if (isGrounded)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -57,7 +58,7 @@ public class Mouvement : MonoBehaviour
             {
                 Hori = Input.GetAxisRaw("Horizontal");
                 Verti = Input.GetAxisRaw("Vertical");
-                tempsDash = 6;
+                tempsDash = 10;
                 dash = 1;
             }
             if (dash == 1)
@@ -94,6 +95,9 @@ public class Mouvement : MonoBehaviour
                 rb.velocity /= 2;
             }
         }
+        animator.SetInteger("Dash", dash);
+        animator.SetFloat("Hori", Math.Abs(Hori));
+        animator.SetFloat("Verti", Verti);
         animator.SetFloat("Speed", Math.Abs(rb.velocity.x));
     }
     // Update is called once per frame
